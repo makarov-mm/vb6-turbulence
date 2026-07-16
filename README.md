@@ -10,7 +10,7 @@
 
 An educational project in Visual Basic 6.0: an interactive 2D simulation of separated
 flow past a symmetric **NACA 0012** airfoil at a high angle of attack (25° by default),
-visualizing vorticity magnitude — in the spirit of CFD package screenshots
+visualizing vorticity magnitude - in the spirit of CFD package screenshots
 (DDES / URANS / RANS comparisons).
 
 ## Screenshot
@@ -33,16 +33,16 @@ visualizing vorticity magnitude — in the spirit of CFD package screenshots
 2. Open `Turbulence.vbp` in VB6 and press **F5**.
 3. For maximum speed, build a native EXE: *File → Make Turbulence.exe*
    (on the Compile tab of the project properties you can enable optimizations and
-   turn off Array Bounds / Overflow checks — this speeds up the solver considerably).
+   turn off Array Bounds / Overflow checks - this speeds up the solver considerably).
 
 ## Controls
 
-- **Start / Pause** — run and stop the simulation.
-- **Reset** — clear the flow field.
-- **Angle of attack** (0–40°) — the body mask is rebuilt on the fly.
-- **Viscosity** — grid kinematic viscosity (lower = "more turbulent").
-- **Flow speed** — freestream velocity.
-- **Tracer particles** — green passive particles advected by the velocity field.
+- **Start / Pause** - run and stop the simulation.
+- **Reset** - clear the flow field.
+- **Angle of attack** (0–40°) - the body mask is rebuilt on the fly.
+- **Viscosity** - grid kinematic viscosity (lower = "more turbulent").
+- **Flow speed** - freestream velocity.
+- **Tracer particles** - green passive particles advected by the velocity field.
 
 The color scale shows vorticity magnitude |curl **V**|: dark background → white → red
 (red marks the most intense eddies), like the *Vorticity Magnitude* scale in CFD packages.
@@ -52,13 +52,13 @@ The color scale shows vorticity magnitude |curl **V**|: dark background → whit
 The 2D incompressible Navier-Stokes equations are solved with the "stable fluids"
 method (J. Stam, 1999):
 
-1. **Semi-Lagrangian advection** — velocity values are traced back along
+1. **Semi-Lagrangian advection** - velocity values are traced back along
    trajectories with bilinear interpolation. Unconditionally stable.
 2. **Explicit viscous diffusion** (five-point Laplacian).
-3. **Vorticity confinement** (Steinhoff/Fedkiw) — feeds back the eddy energy
+3. **Vorticity confinement** (Steinhoff/Fedkiw) - feeds back the eddy energy
    dissipated by the numerical diffusion of the semi-Lagrangian scheme; without it
    the wake comes out too smooth.
-4. **Pressure projection** — the Poisson equation `lap(p) = div(V)` is solved with
+4. **Pressure projection** - the Poisson equation `lap(p) = div(V)` is solved with
    Gauss-Seidel iterations (24 by default), then the pressure gradient is subtracted
    from the velocity, making the field nearly divergence-free.
 
@@ -70,11 +70,11 @@ bottom.
 
 ## Relation to DDES / URANS / RANS
 
-- **RANS** — steady-state averaging: all turbulence is "hidden" inside the model,
+- **RANS** - steady-state averaging: all turbulence is "hidden" inside the model,
   the picture shows only a smooth wake.
-- **URANS** — unsteady computation: large eddies are visible (separation, a Karman
+- **URANS** - unsteady computation: large eddies are visible (separation, a Karman
   street), the small scales are still modeled.
-- **DDES/LES** — large eddies are resolved by the grid, only the subgrid scales are
+- **DDES/LES** - large eddies are resolved by the grid, only the subgrid scales are
   modeled: the richest picture.
 
 This solver is unsteady and has no explicit turbulence model: large eddies are
@@ -88,17 +88,17 @@ a toy model rather than engineering CFD: a 220x110 grid, laminar Reynolds number
 
 Constants at the top of `frmMain.frm`:
 
-- `GRID_NX`, `GRID_NY` — grid size (bigger = prettier but slower);
-- `TIME_SCALE` — how many "physical" seconds are displayed per solver step;
-- `NPART` — number of tracer particles.
+- `GRID_NX`, `GRID_NY` - grid size (bigger = prettier but slower);
+- `TIME_SCALE` - how many "physical" seconds are displayed per solver step;
+- `NPART` - number of tracer particles.
 
-`Form_Load` sets `NITER` — the number of pressure solver iterations (more = better
-incompressibility, slower) — and `epsConf` — the vorticity confinement strength
+`Form_Load` sets `NITER` - the number of pressure solver iterations (more = better
+incompressibility, slower) - and `epsConf` - the vorticity confinement strength
 (0 = off; 0.1 and above makes the wake "boil" harder).
 
 ## Limitations
 
-- The project could not be compiled in the actual VB6 IDE here — the code is written
+- The project could not be compiled in the actual VB6 IDE here - the code is written
   strictly in VB6 syntax, and the numerical scheme was verified one-to-one with a
   Python port (stability, flow separation, and a vortex street at 25°).
 - In the IDE (p-code) the computation is noticeably slower than a compiled native EXE.
